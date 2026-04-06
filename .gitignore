@@ -47,8 +47,14 @@ bin/
 .DS_Store
 Thumbs.db
 
+# Local Docker volumes
+.volumes/
+
 # Environment / secrets
 .env
 *.env
 application-local.yml
 application-local.properties
+
+# Docker Volumes
+docker-volumes/

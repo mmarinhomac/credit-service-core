@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: credit-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/credit_service
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+
+server:
+  port: 8080

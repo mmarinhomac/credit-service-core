@@ -1,0 +1,47 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+### Note: all PJ operations also persist a record in the operacao_socio table
+
+
+### [PJ] Product 202B — eligible (value within 5000–50000) → 201 Created
+###   Also persists a record in operacao_socio table
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 10000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "202B",
+  "codigoConta": "9876543210"
+}
+
+###
+
+### [PJ] Product 505E — eligible (value within 10000–100000) → 201 Created
+###   Also persists a record in operacao_socio table
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 50000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "505E",
+  "codigoConta": "9876543210"
+}
+
+###
+
+### [PJ] Product 606F — PF or PJ, value within 2000–30000 → 201 Created
+###   Also persists a record in operacao_socio table
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 5000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "606F",
+  "codigoConta": "9876543210"
+}

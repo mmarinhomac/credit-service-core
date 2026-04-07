@@ -1,0 +1,57 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+
+### [PF] Product 101A — eligible (value within 500–5000) → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 1000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 404D — eligible (value within 1000–20000) → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 5000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "404D",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 606F — PF or PJ, value within 2000–30000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 5000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "606F",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 909I — PF, PJ, or AGRO, value within 1000–50000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 10000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "909I",
+  "codigoConta": "0123456789"
+}

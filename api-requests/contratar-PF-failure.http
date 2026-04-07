@@ -1,0 +1,31 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+
+### [PF] Product 101A — value exceeds max (5000) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 9999,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 101A — value below min (500) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 100,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}

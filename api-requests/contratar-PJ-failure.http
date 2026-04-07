@@ -1,0 +1,16 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+
+### [PJ] Product 202B — value exceeds max (50000) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 99999,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "202B",
+  "codigoConta": "9876543210"
+}

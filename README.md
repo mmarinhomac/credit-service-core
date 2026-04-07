@@ -7,7 +7,6 @@ Backend monorepo for the Sicredi Credit Acquisition service.
 - Docker & Docker Compose
 - Java 21
 - Maven
-- [httpyac](https://httpyac.github.io/) (for running API requests)
 
 ## Setup
 
@@ -47,63 +46,37 @@ The API will be available at `http://localhost:8080`.
 
 ## API Requests
 
-HTTP request files are in `./api-requests/`. Use [httpyac](https://httpyac.github.io/) to run them from the command line.
+HTTP request files are in `./api-requests/`. Use [httpyac](https://httpyac.github.io/) via `npx` — no installation required.
 
-Install httpyac globally (once):
+### contratar — Contract a credit operation (POST)
 
-```bash
-npm install -g httpyac
-```
-
-### contratar.http — Contract a credit operation (POST)
-
-Run a specific request by its name (the comment after `###`):
+Run all requests in a file at once:
 
 ```bash
-# PF — eligible
-httpyac send api-requests/contratar.http --name "[PF] Product 101A — eligible (value within 500–5000) → 201 Created"
+# PF — success
+npx httpyac send api-requests/contratar-PF-success.http --all
 
-# PJ — eligible (also persists operacao_socio record)
-httpyac send api-requests/contratar.http --name "[PJ] Product 202B — eligible (value within 5000–50000) → 201 Created"
+# PF — failure (422)
+npx httpyac send api-requests/contratar-PF-failure.http --all
 
-# AGRO — eligible, with area
-httpyac send api-requests/contratar.http --name "[AGRO] Product 303C — eligible, with area → 201 Created"
+# PJ — success (also creates operacao_socio record)
+npx httpyac send api-requests/contratar-PJ-success.http --all
 
-# AGRO — missing area → 422
-httpyac send api-requests/contratar.http --name "[AGRO] Missing areaBeneficiadaHa → 422 Unprocessable Entity"
+# PJ — failure (422)
+npx httpyac send api-requests/contratar-PJ-failure.http --all
 
-# PF — value out of range → 422
-httpyac send api-requests/contratar.http --name "[PF] Product 101A — value exceeds max (5000) → 422 Unprocessable Entity"
+# AGRO — success
+npx httpyac send api-requests/contratar-AGRO-success.http --all
+
+# AGRO — failure (422)
+npx httpyac send api-requests/contratar-AGRO-failure.http --all
 ```
 
-Run all requests in the file at once:
+### consultar — Query a credit operation (GET)
+
+Set `@idOperacaoCredito` in `consultar.http` to a real ID returned by a contratar success request, then run:
 
 ```bash
-httpyac send api-requests/contratar.http --all
+npx httpyac send api-requests/consultar.http --all
 ```
 
-### consultar.http — Query a credit operation (GET)
-
-Replace the `idOperacaoCredito` variable with a real ID returned by a POST above, then run:
-
-```bash
-# Fetch an existing operation → 200 OK
-httpyac send api-requests/consultar.http --name "Fetch an existing operation → 200 OK"
-
-# Non-existent ID → 404
-httpyac send api-requests/consultar.http --name "Operation not found → 404 Not Found"
-```
-
-Or run all GET requests at once:
-
-```bash
-httpyac send api-requests/consultar.http --all
-```
-
-### Override the base URL
-
-By default all requests target `http://localhost:8080`. Pass a different URL with `--var`:
-
-```bash
-httpyac send api-requests/contratar.http --all --var baseUrl=http://localhost:9090
-```

@@ -16,7 +16,7 @@ Copy the environment file and fill in the values:
 cp .env.example .env
 ```
 
-## Running with Docker
+## Docker Commands
 
 Start all containers in the background:
 
@@ -30,7 +30,7 @@ Force rebuild and restart all containers:
 docker compose up -d --build --force-recreate
 ```
 
-## Dev / Debug (without Docker)
+## Dev / Debug (without Docker) Commands
 
 Ensure the database is running (`docker compose up -d postgres`), then from the service directory:
 

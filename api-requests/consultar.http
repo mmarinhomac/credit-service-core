@@ -1,0 +1,19 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+### Replace this variable with an idOperacaoCredito returned by a POST in contratar.http
+@idOperacaoCredito = 00000000-0000-0000-0000-000000000000
+
+
+### ─────────────────────────────────────────────
+###  GET — Query a credit operation by ID
+### ─────────────────────────────────────────────
+
+### Fetch an existing operation → 200 OK
+###   Response includes all contract fields + idOperacaoCredito + dataContratacao
+GET {{baseUrl}}/operacoes-credito/{{idOperacaoCredito}}
+
+###
+
+### Operation not found → 404 Not Found
+GET {{baseUrl}}/operacoes-credito/00000000-0000-0000-0000-000000000001

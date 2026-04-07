@@ -1,0 +1,235 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+
+### ─────────────────────────────────────────────
+###  PF — Segment: Personal Credit
+### ─────────────────────────────────────────────
+
+### [PF] Product 101A — eligible (value within 500–5000) → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 1000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 404D — eligible (value within 1000–20000) → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 5000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "404D",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 101A — value exceeds max (5000) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 9999,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PF] Product 101A — value below min (500) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 100,
+  "segmento": "PF",
+  "codigoProdutoCredito": "101A",
+  "codigoConta": "0123456789"
+}
+
+
+### ─────────────────────────────────────────────
+###  PJ — Segment: Business Credit
+### ─────────────────────────────────────────────
+
+### [PJ] Product 202B — eligible (value within 5000–50000) → 201 Created
+###   Also persists a record in operacao_socio table
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 10000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "202B",
+  "codigoConta": "9876543210"
+}
+
+###
+
+### [PJ] Product 505E — eligible (value within 10000–100000) → 201 Created
+###   Also persists a record in operacao_socio table
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 50000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "505E",
+  "codigoConta": "9876543210"
+}
+
+###
+
+### [PJ] Product 202B — value exceeds max (50000) → 422 Unprocessable Entity
+###   Real product service returns permiteContratar: false
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 99999,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "202B",
+  "codigoConta": "9876543210"
+}
+
+
+### ─────────────────────────────────────────────
+###  AGRO — Segment: Agricultural Credit
+### ─────────────────────────────────────────────
+
+### [AGRO] Product 303C — eligible, with area → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 5000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "303C",
+  "codigoConta": "1111111111",
+  "areaBeneficiadaHa": 10.5
+}
+
+###
+
+### [AGRO] Product 903C — eligible, with area (value within 1000–10000) → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 3000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "903C",
+  "codigoConta": "2222222222",
+  "areaBeneficiadaHa": 5.0
+}
+
+###
+
+### [AGRO] Missing areaBeneficiadaHa → 422 Unprocessable Entity
+###   Rejected by use case before reaching the product service
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 5000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "303C",
+  "codigoConta": "1111111111"
+}
+
+###
+
+### [AGRO] areaBeneficiadaHa = 0 → 422 Unprocessable Entity
+###   Zero is explicitly rejected by AGRO validation rule
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 5000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "303C",
+  "codigoConta": "1111111111",
+  "areaBeneficiadaHa": 0
+}
+
+
+### ─────────────────────────────────────────────
+###  Multi-segment products (606F, 707G, 808H, 909I)
+### ─────────────────────────────────────────────
+
+### [PF] Product 606F — PF or PJ, value within 2000–30000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 5000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "606F",
+  "codigoConta": "0123456789"
+}
+
+###
+
+### [PJ] Product 606F — PF or PJ, value within 2000–30000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 2,
+  "valorOperacao": 5000,
+  "segmento": "PJ",
+  "codigoProdutoCredito": "606F",
+  "codigoConta": "9876543210"
+}
+
+###
+
+### [AGRO] Product 707G — AGRO or PF, value within 1500–12000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 3000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "707G",
+  "codigoConta": "3333333333",
+  "areaBeneficiadaHa": 7.2
+}
+
+###
+
+### [PF] Product 909I — PF, PJ, or AGRO, value within 1000–50000 → 201 Created
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 1,
+  "valorOperacao": 10000,
+  "segmento": "PF",
+  "codigoProdutoCredito": "909I",
+  "codigoConta": "0123456789"
+}

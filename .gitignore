@@ -32,7 +32,7 @@ logs/
 *.iml
 *.iws
 *.ipr
-out/
+# out/
 
 # IDE — Eclipse
 .classpath

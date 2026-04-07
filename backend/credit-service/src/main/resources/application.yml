@@ -16,3 +16,22 @@ spring:
 
 server:
   port: 8080
+
+produtos-credito:
+  base-url: https://desafio-credito-sicredi.wiremockapi.cloud
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      produtoElegibilidade:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+  retry:
+    instances:
+      produtoElegibilidade:
+        max-attempts: 3
+        wait-duration: 500ms
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2

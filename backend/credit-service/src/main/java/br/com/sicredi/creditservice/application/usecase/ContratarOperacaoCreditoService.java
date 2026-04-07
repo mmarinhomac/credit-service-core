@@ -10,6 +10,7 @@ import br.com.sicredi.creditservice.domain.port.in.ContratarOperacaoCreditoUseCa
 import br.com.sicredi.creditservice.domain.port.out.OperacaoCreditoRepository;
 import br.com.sicredi.creditservice.domain.port.out.OperacaoSocioRepository;
 import br.com.sicredi.creditservice.domain.port.out.ProdutoElegibilidadePort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,6 +30,7 @@ public class ContratarOperacaoCreditoService implements ContratarOperacaoCredito
         this.produtoElegibilidadePort = produtoElegibilidadePort;
     }
 
+    @Transactional
     @Override
     public UUID executar(ContratoOperacaoCommand command) {
         validarAgro(command);

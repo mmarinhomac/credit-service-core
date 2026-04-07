@@ -40,6 +40,8 @@ cd backend/credit-service
 ./mvnw clean install -DskipTests
 
 ./mvnw spring-boot:run
+
+./mvnw test
 ```
 
 The API will be available at `http://localhost:8080`.

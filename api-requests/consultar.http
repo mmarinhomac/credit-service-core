@@ -2,7 +2,7 @@
 @baseUrl = http://localhost:8080
 
 ### Replace this variable with an idOperacaoCredito returned by a POST in contratar-*-success.http
-@idOperacaoCredito = 00000000-0000-0000-0000-000000000000
+@idOperacaoCredito = 720f6e30-9085-4750-870d-b3ebff25e2cc
 
 
 ### ─────────────────────────────────────────────

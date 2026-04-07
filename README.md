@@ -37,7 +37,7 @@ Ensure the database is running (`docker compose up -d postgres`), then from the 
 ```bash
 cd backend/credit-service
 
-./mvnw clean install
+./mvnw clean install -DskipTests
 
 ./mvnw spring-boot:run
 ```

@@ -1,0 +1,32 @@
+### Base URL — override per environment
+@baseUrl = http://localhost:8080
+
+
+### [AGRO] Missing areaBeneficiadaHa → 422 Unprocessable Entity
+###   Rejected by use case before reaching the product service
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 5000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "303C",
+  "codigoConta": "1111111111"
+}
+
+###
+
+### [AGRO] areaBeneficiadaHa = 0 → 422 Unprocessable Entity
+###   Zero is explicitly rejected by AGRO validation rule
+POST {{baseUrl}}/operacoes-credito
+Content-Type: application/json
+
+{
+  "idAssociado": 3,
+  "valorOperacao": 5000,
+  "segmento": "AGRO",
+  "codigoProdutoCredito": "303C",
+  "codigoConta": "1111111111",
+  "areaBeneficiadaHa": 0
+}
